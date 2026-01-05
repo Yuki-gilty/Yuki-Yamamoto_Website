@@ -1,5 +1,5 @@
 import React from 'react';
-import { Bone as Drone, ChevronUp } from 'lucide-react';
+import { ChevronUp } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../data/translations';
 
@@ -20,9 +20,6 @@ const Footer: React.FC = () => {
         <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-12 mb-10 md:mb-12 lg:mb-16">
           <div className="max-w-sm w-full">
             <div className="flex items-center gap-2 sm:gap-3 mb-4 md:mb-6">
-              <div className="p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-rose-50 text-rose-600">
-                <Drone className="w-5 h-5 sm:w-6 sm:h-6" />
-              </div>
               <span className="font-bold text-xl sm:text-2xl tracking-tight text-gray-900">
                 Yuki Yamamoto
               </span>

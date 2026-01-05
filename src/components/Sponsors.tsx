@@ -163,9 +163,14 @@ const Sponsors: React.FC = () => {
                   />
                 </div>
 
-                <button className="w-full py-3 md:py-4 bg-gray-900 text-white rounded-xl md:rounded-2xl font-bold hover:bg-rose-600 transition-all hover:shadow-lg text-sm sm:text-base">
+                <a
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSc1VSvn4AT8qFeVARlfM3duI1yuqyTgwUR1m4fKtQu3ur5LYw/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3 md:py-4 bg-gray-900 text-white rounded-xl md:rounded-2xl font-bold hover:bg-rose-600 transition-all hover:shadow-lg text-sm sm:text-base text-center block"
+                >
                   {t.sponsors.inquiry}
-                </button>
+                </a>
               </div>
             ))}
           </div>
