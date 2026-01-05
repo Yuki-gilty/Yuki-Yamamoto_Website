@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CalendarDays, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../data/translations';
+import api from '../utils/api';
 
 interface NewsItem {
+  id?: number;
   date: string;
-  title: {
-    ja: string;
-    en: string;
-  };
-  content: {
-    ja: string;
-    en: string;
-  };
-  imageUrl?: string;
+  title_ja: string;
+  title_en: string;
+  content_ja: string;
+  content_en: string;
+  image_url?: string;
 }
 
-const newsItems: NewsItem[] = [
+// 静的データ（フォールバック用）
+const fallbackNewsItems: NewsItem[] = [
   {
     date: '2025-08-22',
     title: {
@@ -192,6 +191,25 @@ const News: React.FC = () => {
   const t = translations[language];
   const [selectedItem, setSelectedItem] = useState<NewsItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [allNewsItems, setAllNewsItems] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await api.get('/news');
+        setAllNewsItems(response.data);
+      } catch (error) {
+        console.error('Error fetching news:', error);
+        // APIが失敗した場合は静的データを使用
+        setAllNewsItems([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, []);
   
   const openModal = (item: NewsItem) => {
     setSelectedItem(item);
@@ -208,9 +226,19 @@ const News: React.FC = () => {
     }, 300); // アニメーション時間（duration-300）と合わせる
   };
 
-  const sortedItems = [...newsItems].sort((a, b) => 
+  const sortedItems = [...allNewsItems].sort((a, b) => 
     new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+
+  if (loading) {
+    return (
+      <section id="news" className="py-16 sm:py-24 md:py-32 bg-slate-50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center text-gray-500">Loading...</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="news" className="py-16 sm:py-24 md:py-32 bg-slate-50">
@@ -225,50 +253,56 @@ const News: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {sortedItems.map((item, index) => {
-            const formattedDate = new Date(item.date).toLocaleDateString(language === 'ja' ? 'ja-JP' : 'en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            });
+          {sortedItems.length === 0 ? (
+            <div className="col-span-full text-center text-gray-500 py-12">
+              お知らせがありません
+            </div>
+          ) : (
+            sortedItems.map((item) => {
+              const formattedDate = new Date(item.date).toLocaleDateString(language === 'ja' ? 'ja-JP' : 'en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              });
 
-            return (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl md:rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer flex flex-col"
-                onClick={() => openModal(item)}
-              >
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  {item.imageUrl ? (
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title[language]}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                      <p className="text-gray-300 text-xs sm:text-sm">No Image</p>
+              return (
+                <div
+                  key={item.id || item.date}
+                  className="group bg-white rounded-2xl md:rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer flex flex-col"
+                  onClick={() => openModal(item)}
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    {item.image_url ? (
+                      <img
+                        src={item.image_url}
+                        alt={language === 'ja' ? item.title_ja : item.title_en}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                        <p className="text-gray-300 text-xs sm:text-sm">No Image</p>
+                      </div>
+                    )}
+                    <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+                      <div className="bg-white/90 backdrop-blur-sm px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs font-bold text-gray-900 shadow-sm">
+                        {formattedDate}
+                      </div>
                     </div>
-                  )}
-                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-                    <div className="bg-white/90 backdrop-blur-sm px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs font-bold text-gray-900 shadow-sm">
-                      {formattedDate}
+                  </div>
+                  
+                  <div className="p-6 sm:p-8 flex-1 flex flex-col">
+                    <h3 className="font-bold text-lg sm:text-xl text-gray-900 leading-tight mb-3 sm:mb-4 group-hover:text-rose-600 transition-colors line-clamp-2">
+                      {language === 'ja' ? item.title_ja : item.title_en}
+                    </h3>
+                    <div className="mt-auto flex items-center text-rose-600 font-bold text-xs sm:text-sm">
+                      {t.news.viewDetails}
+                      <span className="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
                     </div>
                   </div>
                 </div>
-                
-                <div className="p-6 sm:p-8 flex-1 flex flex-col">
-                  <h3 className="font-bold text-lg sm:text-xl text-gray-900 leading-tight mb-3 sm:mb-4 group-hover:text-rose-600 transition-colors line-clamp-2">
-                    {item.title[language]}
-                  </h3>
-                  <div className="mt-auto flex items-center text-rose-600 font-bold text-xs sm:text-sm">
-                    {t.news.viewDetails}
-                    <span className="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
       
@@ -308,25 +342,25 @@ const News: React.FC = () => {
           
           <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
             {/* Image Side */}
-            {selectedItem.imageUrl && (
+            {selectedItem.image_url && (
               <div className="w-full lg:w-1/2 h-48 sm:h-64 md:h-80 lg:h-full flex-none bg-white flex items-center justify-center overflow-hidden p-3 sm:p-4 md:p-8">
                 <img
-                  src={selectedItem.imageUrl}
-                  alt={selectedItem.title[language]}
+                  src={selectedItem.image_url}
+                  alt={language === 'ja' ? selectedItem.title_ja : selectedItem.title_en}
                   className="relative z-10 max-w-full max-h-full object-contain rounded-lg sm:rounded-xl shadow-sm"
                 />
               </div>
             )}
             
             {/* Content Side */}
-            <div className={`flex-1 overflow-y-auto p-6 sm:p-8 md:p-12 lg:p-16 ${!selectedItem.imageUrl ? 'lg:max-w-4xl lg:mx-auto' : ''}`}>
+            <div className={`flex-1 overflow-y-auto p-6 sm:p-8 md:p-12 lg:p-16 ${!selectedItem.image_url ? 'lg:max-w-4xl lg:mx-auto' : ''}`}>
               <div className="max-w-2xl">
                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight">
-                  {selectedItem.title[language]}
+                  {language === 'ja' ? selectedItem.title_ja : selectedItem.title_en}
                 </h3>
                 
                 <div className="prose prose-sm md:prose-base max-w-none text-gray-600 leading-relaxed whitespace-pre-line text-sm sm:text-base">
-                  {renderContentWithLinks(selectedItem.content[language])}
+                  {renderContentWithLinks(language === 'ja' ? selectedItem.content_ja : selectedItem.content_en)}
                 </div>
 
                 <div className="mt-8 sm:mt-12 pt-8 sm:pt-12 border-t border-gray-100 lg:hidden">

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Trophy, Award, Medal, Star } from 'lucide-react';
-import { achievements } from '../data/achievements';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../data/translations';
+import api from '../utils/api';
 
 const AchievementItem: React.FC<{ text: string; language: 'ja' | 'en' }> = ({ text, language }) => {
   const isHighAchievement = language === 'ja' 
@@ -70,6 +70,44 @@ const YearTimeline: React.FC<{ year: string; achievements: string[]; language: '
 const Achievements: React.FC = () => {
   const { language } = useLanguage();
   const t = translations[language];
+  const [mergedAchievements, setMergedAchievements] = useState<Record<string, string[]>>({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAchievements = async () => {
+      try {
+        const response = await api.get('/achievements');
+        const data = response.data;
+        
+        // Transform API data to match component structure
+        const transformed: Record<string, string[]> = {};
+        Object.keys(data).forEach((year) => {
+          transformed[year] = data[year].map((item: { text_ja: string; text_en: string }) => 
+            language === 'ja' ? item.text_ja : item.text_en
+          );
+        });
+        
+        setMergedAchievements(transformed);
+      } catch (error) {
+        console.error('Error fetching achievements:', error);
+        setMergedAchievements({});
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAchievements();
+  }, [language]);
+
+  if (loading) {
+    return (
+      <section id="achievements" className="py-16 sm:py-24 md:py-32 bg-white relative overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center text-gray-500">Loading...</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="achievements" className="py-16 sm:py-24 md:py-32 bg-white relative overflow-hidden">
@@ -102,16 +140,20 @@ const Achievements: React.FC = () => {
           <div className="lg:w-3/4">
             <div className="bg-gray-50/50 p-6 sm:p-8 md:p-12 lg:p-16 rounded-2xl md:rounded-[3rem] border border-gray-100">
               <div className="max-w-3xl">
-                {Object.entries(achievements[language])
-                  .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
-                  .map(([year, yearAchievements]) => (
-                    <YearTimeline 
-                      key={year}
-                      year={year}
-                      achievements={yearAchievements}
-                      language={language}
-                    />
-                  ))}
+                {Object.keys(mergedAchievements).length === 0 ? (
+                  <div className="text-center text-gray-500 py-12">実績がありません</div>
+                ) : (
+                  Object.entries(mergedAchievements)
+                    .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
+                    .map(([year, yearAchievements]) => (
+                      <YearTimeline 
+                        key={year}
+                        year={year}
+                        achievements={yearAchievements}
+                        language={language}
+                      />
+                    ))
+                )}
               </div>
             </div>
           </div>
