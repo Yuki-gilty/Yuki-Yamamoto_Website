@@ -63,23 +63,23 @@ const Header: React.FC = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
         isScrolled 
-          ? 'bg-white/90 backdrop-blur-lg shadow-sm border-b border-slate-200 py-2 md:py-3' 
-          : 'bg-transparent py-4 md:py-6'
+          ? 'bg-black/80 backdrop-blur-lg shadow-sm border-b border-white/10 py-3 md:py-4' 
+          : 'bg-black/40 backdrop-blur-lg py-3 md:py-4'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 flex justify-between items-center">
         <div className="flex items-center gap-6">
           <Link to="/" className="flex items-center gap-2.5 group relative">
-            <span className={`font-bold text-lg sm:text-xl tracking-tight transition-colors text-slate-900`}>
+            <span className={`font-bold text-lg sm:text-xl tracking-tight transition-colors text-white`}>
               Yuki Yamamoto
             </span>
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-600 group-hover:w-full transition-all duration-300"></span>
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-red-400 group-hover:w-full transition-all duration-300"></span>
           </Link>
 
           {/* Header Social Links */}
-          <div className="hidden lg:flex items-center gap-3 pl-6 border-l border-slate-200">
+          <div className="hidden lg:flex items-center gap-3 pl-6 border-l border-white/10">
             {socialLinks.map((social) => (
               <a
                 key={social.name}
@@ -101,8 +101,10 @@ const Header: React.FC = () => {
               key={item.href}
               to={item.href}
               className={({ isActive }) => 
-                `px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all hover:bg-red-600 hover:text-white ${
-                  isActive ? 'bg-red-600 text-white' : (isScrolled ? 'text-slate-600' : 'text-slate-700')
+                `px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all ${
+                  isActive 
+                    ? 'bg-red-600 text-white' 
+                    : 'text-gray-200 hover:bg-white/10 hover:text-white'
                 }`
               }
             >
@@ -114,12 +116,12 @@ const Header: React.FC = () => {
           <div className="relative ml-2" ref={languageDropdownRef}>
             <button
               onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-              className={`px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all hover:bg-red-600 hover:text-white flex items-center gap-1.5 ${
-                isScrolled ? 'text-slate-600' : 'text-slate-700'
-              }`}
+              className={`px-3 md:px-4 py-2 rounded-full text-xs md:text-sm font-medium transition-all flex items-center gap-1.5 ${
+                isScrolled ? 'bg-white/5 text-gray-100' : 'bg-white/5 text-gray-100'
+              } hover:bg-white/10`}
             >
               {t.header.language}
-              <span className="w-4 h-4 rounded-full overflow-hidden flex-shrink-0 border border-slate-300 bg-white">
+              <span className="w-4 h-4 rounded-full overflow-hidden flex-shrink-0 border border-white/40 bg-white">
                 {language === 'ja' ? (
                   <svg viewBox="0 0 100 100" className="w-full h-full">
                     <rect width="100" height="100" fill="#FFFFFF"/>
@@ -170,9 +172,9 @@ const Header: React.FC = () => {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <div className="w-6 h-5 flex flex-col justify-between">
-            <div className={`w-full h-0.5 rounded-full transition-all bg-slate-900 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
-            <div className={`w-full h-0.5 rounded-full transition-all bg-slate-900 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></div>
-            <div className={`w-full h-0.5 rounded-full transition-all bg-slate-900 ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></div>
+            <div className={`w-full h-0.5 rounded-full transition-all bg-white ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></div>
+            <div className={`w-full h-0.5 rounded-full transition-all bg-white ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></div>
+            <div className={`w-full h-0.5 rounded-full transition-all bg-white ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></div>
           </div>
         </button>
       </div>
@@ -183,9 +185,9 @@ const Header: React.FC = () => {
           isMenuOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-4'
         }`}
       >
-        <nav className="flex flex-col p-6 gap-2">
+        <nav className="flex flex-col p-4 md:p-6 gap-1.5 md:gap-2">
           {/* Mobile Social Links */}
-          <div className="flex items-center gap-6 px-4 py-4 mb-2 border-b border-slate-100 justify-center">
+          <div className="flex items-center gap-4 md:gap-6 px-3 md:px-4 py-3 md:py-4 mb-1 md:mb-2 border-b border-slate-100 justify-center">
             {socialLinks.map((social) => (
               <a
                 key={social.name}
@@ -195,7 +197,7 @@ const Header: React.FC = () => {
                 className={`${social.color} hover:opacity-70 transition-all`}
                 aria-label={social.name}
               >
-                <social.icon size={24} />
+                <social.icon size={20} className="md:w-6 md:h-6" />
               </a>
             ))}
           </div>
@@ -205,7 +207,7 @@ const Header: React.FC = () => {
               key={item.href}
               to={item.href}
               className={({ isActive }) => 
-                `text-lg font-medium py-3 px-4 rounded-xl transition-all ${
+                `text-base md:text-lg font-medium py-2.5 md:py-3 px-3 md:px-4 rounded-xl transition-all ${
                   isActive ? 'bg-red-50 text-red-600' : 'text-slate-700 hover:text-red-600 hover:bg-slate-50'
                 }`
               }
@@ -216,10 +218,10 @@ const Header: React.FC = () => {
           ))}
           
           {/* Mobile Language Selector */}
-          <div className="pt-2 border-t border-slate-100 mt-2">
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wider px-4 mb-2 flex items-center gap-2">
+          <div className="pt-1.5 md:pt-2 border-t border-slate-100 mt-1 md:mt-2">
+            <div className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-wider px-3 md:px-4 mb-1.5 md:mb-2 flex items-center gap-2">
               {t.header.language}
-              <span className="w-4 h-4 rounded-full overflow-hidden flex-shrink-0 border border-slate-300 bg-white">
+              <span className="w-3.5 h-3.5 md:w-4 md:h-4 rounded-full overflow-hidden flex-shrink-0 border border-slate-300 bg-white">
                 {language === 'ja' ? (
                   <svg viewBox="0 0 100 100" className="w-full h-full">
                     <rect width="100" height="100" fill="#FFFFFF"/>
@@ -241,7 +243,7 @@ const Header: React.FC = () => {
                 handleLanguageSelect('ja');
                 setIsMenuOpen(false);
               }}
-              className={`w-full text-left text-lg font-medium py-3 px-4 rounded-xl transition-all ${
+              className={`w-full text-left text-base md:text-lg font-medium py-2.5 md:py-3 px-3 md:px-4 rounded-xl transition-all ${
                 language === 'ja' 
                   ? 'bg-red-50 text-red-600' 
                   : 'text-slate-700 hover:bg-slate-50'
@@ -254,7 +256,7 @@ const Header: React.FC = () => {
                 handleLanguageSelect('en');
                 setIsMenuOpen(false);
               }}
-              className={`w-full text-left text-lg font-medium py-3 px-4 rounded-xl transition-all ${
+              className={`w-full text-left text-base md:text-lg font-medium py-2.5 md:py-3 px-3 md:px-4 rounded-xl transition-all ${
                 language === 'en' 
                   ? 'bg-red-50 text-red-600' 
                   : 'text-slate-700 hover:bg-slate-50'

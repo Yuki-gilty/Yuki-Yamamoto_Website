@@ -230,30 +230,30 @@ const News: React.FC<NewsProps> = ({ limit, isHome }) => {
   const displayItems = limit ? sortedItems.slice(0, limit) : sortedItems;
 
   return (
-    <section id="news" className={`${isHome ? 'py-12 sm:py-16 md:py-20' : 'py-16 sm:py-24 md:py-32'} bg-white relative overflow-hidden`}>
+    <section id="news" className={`${isHome ? 'py-10 sm:py-12 md:py-20' : 'py-12 sm:py-16 md:py-32'} bg-white relative overflow-hidden`}>
       <div className="absolute inset-0 bg-diagonal-stripe opacity-5"></div>
       
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className={`flex flex-col ${isHome ? 'items-center text-center' : 'md:flex-row md:items-end justify-between'} ${isHome ? 'mb-8 md:mb-12' : 'mb-12 md:mb-20'} gap-8`}>
+        <div className={`flex flex-col ${isHome ? 'items-center text-center' : 'md:flex-row md:items-end justify-between'} ${isHome ? 'mb-6 md:mb-12' : 'mb-8 md:mb-20'} gap-6 md:gap-8`}>
           <div className={`${isHome ? 'max-w-3xl' : 'max-w-2xl'}`}>
-            <div className={`flex items-center ${isHome ? 'justify-center' : ''} gap-4 mb-4`}>
-              <div className="h-px w-12 bg-red-600"></div>
-              <span className={`text-red-600 font-mono ${isHome ? 'text-xs' : 'text-sm'} tracking-widest uppercase`}>Latest Updates</span>
-              {isHome && <div className="h-px w-12 bg-red-600"></div>}
+            <div className={`flex items-center ${isHome ? 'justify-center' : ''} gap-3 md:gap-4 mb-3 md:mb-4`}>
+              <div className="h-px w-8 md:w-12 bg-red-600"></div>
+              <span className={`text-red-600 font-mono ${isHome ? 'text-[10px] md:text-xs' : 'text-xs md:text-sm'} tracking-widest uppercase`}>Latest Updates</span>
+              {isHome && <div className="h-px w-8 md:w-12 bg-red-600"></div>}
             </div>
-            <h3 className={`${isHome ? 'text-2xl sm:text-3xl md:text-4xl' : 'text-4xl sm:text-5xl md:text-6xl'} font-black text-slate-900 leading-tight`}>
+            <h3 className={`${isHome ? 'text-xl sm:text-2xl md:text-3xl lg:text-4xl' : 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl'} font-black text-slate-900 leading-tight`}>
               News & <span className="text-red-600">Moments</span>
             </h3>
           </div>
           {!isHome && (
-            <p className="text-slate-500 text-lg max-w-sm font-medium border-l-2 border-slate-100 pl-6">
+            <p className="text-slate-500 text-base md:text-lg max-w-sm font-medium border-l-2 border-slate-100 pl-4 md:pl-6">
               {t.news.description}
             </p>
           )}
         </div>
         
         <div className={`${isHome ? 'max-w-5xl mx-auto' : ''}`}>
-          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${isHome ? 'gap-4 md:gap-6' : 'gap-10 md:gap-12'}`}>
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${isHome ? 'gap-4 md:gap-6' : 'gap-6 md:gap-10 lg:gap-12'}`}>
             {displayItems.map((item, index) => {
               const formattedDate = new Date(item.date).toLocaleDateString(language === 'ja' ? 'ja-JP' : 'en-US', {
                 year: 'numeric',
@@ -270,11 +270,11 @@ const News: React.FC<NewsProps> = ({ limit, isHome }) => {
                   className="flex flex-col group cursor-pointer"
                   onClick={() => openModal(item)}
                 >
-                  <div className={`relative bg-white border border-slate-100 ${isHome ? 'p-2.5' : 'p-4'} transition-all duration-500 shadow-sm hover:shadow-md ${rotation}`}>
+                  <div className={`relative bg-white border border-slate-100 ${isHome ? 'p-2 md:p-2.5' : 'p-3 md:p-4'} transition-all duration-500 shadow-sm hover:shadow-md ${rotation}`}>
                     {/* Decorative corner */}
-                    <div className="absolute -top-px -right-px w-6 h-6 bg-slate-50 border-b border-l border-slate-100"></div>
+                    <div className="absolute -top-px -right-px w-4 h-4 md:w-6 md:h-6 bg-slate-50 border-b border-l border-slate-100"></div>
                     
-                    <div className={`relative aspect-[16/10] overflow-hidden ${isHome ? 'mb-3' : 'mb-6'} bg-slate-50`}>
+                    <div className={`relative aspect-[16/10] overflow-hidden ${isHome ? 'mb-2 md:mb-3' : 'mb-4 md:mb-6'} bg-slate-50`}>
                       {item.imageUrl ? (
                         <img
                           src={item.imageUrl}
@@ -283,32 +283,32 @@ const News: React.FC<NewsProps> = ({ limit, isHome }) => {
                         />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center">
-                          <p className="text-slate-300 font-mono text-[10px] uppercase tracking-widest text-center">No visual<br/>data_available</p>
+                          <p className="text-slate-300 font-mono text-[9px] md:text-[10px] uppercase tracking-widest text-center">No visual<br/>data_available</p>
                         </div>
                       )}
                       
-                      <div className={`absolute top-0 left-0 bg-red-600 text-white ${isHome ? 'px-1.5 py-0.5 text-[7px]' : 'px-3 py-1 text-[10px]'} font-mono font-bold uppercase tracking-widest`}>
+                      <div className={`absolute top-0 left-0 bg-red-600 text-white ${isHome ? 'px-1 md:px-1.5 py-0.5 text-[6px] md:text-[7px]' : 'px-2 md:px-3 py-0.5 md:py-1 text-[9px] md:text-[10px]'} font-mono font-bold uppercase tracking-widest`}>
                         {formattedDate}
                       </div>
                     </div>
                     
                     <div className="flex flex-col">
-                      <div className="text-[9px] font-mono text-slate-400 uppercase tracking-widest mb-1.5 flex justify-between">
+                      <div className="text-[8px] md:text-[9px] font-mono text-slate-400 uppercase tracking-widest mb-1 md:mb-1.5 flex justify-between">
                         <span>File: NEWS_00{newsItems.length - index}</span>
-                        <span className="text-red-600 opacity-0 group-hover:opacity-100 transition-opacity font-bold text-[7px]">OPEN_FILE</span>
+                        <span className="text-red-600 opacity-0 group-hover:opacity-100 transition-opacity font-bold text-[6px] md:text-[7px]">OPEN_FILE</span>
                       </div>
-                      <h3 className={`font-bold ${isHome ? 'text-sm' : 'text-xl'} text-slate-900 leading-tight group-hover:text-red-600 transition-colors line-clamp-2 uppercase tracking-tighter`}>
+                      <h3 className={`font-bold ${isHome ? 'text-xs md:text-sm' : 'text-base md:text-xl'} text-slate-900 leading-tight group-hover:text-red-600 transition-colors line-clamp-2 uppercase tracking-tighter`}>
                         {item.title[language]}
                       </h3>
                     </div>
                   </div>
 
                   {/* Details - Moved outside the white border */}
-                  <div className={`mt-3 px-1 flex items-center justify-between text-[9px] font-mono text-slate-400 uppercase tracking-widest`}>
+                  <div className={`mt-2 md:mt-3 px-1 flex items-center justify-between text-[8px] md:text-[9px] font-mono text-slate-400 uppercase tracking-widest`}>
                     <span className="group-hover:text-red-600 transition-colors font-bold">
                       {language === 'ja' ? '詳細' : 'Details'}
                     </span>
-                    <span className={`w-8 h-px bg-slate-200 group-hover:w-12 group-hover:bg-red-600 transition-all duration-300`}></span>
+                    <span className={`w-6 md:w-8 h-px bg-slate-200 group-hover:w-10 md:group-hover:w-12 group-hover:bg-red-600 transition-all duration-300`}></span>
                   </div>
                 </div>
               );
@@ -316,15 +316,15 @@ const News: React.FC<NewsProps> = ({ limit, isHome }) => {
           </div>
 
           {isHome && (
-            <div className="mt-12 md:mt-16 flex justify-center">
+            <div className="mt-8 md:mt-16 flex justify-center">
               <Link 
                 to="/news"
-                className="group relative px-10 py-4 bg-white text-slate-900 border border-slate-200 font-bold transition-all hover:border-red-600 hover:text-red-600 overflow-hidden flex items-center gap-3"
+                className="group relative px-6 md:px-10 py-3 md:py-4 bg-white text-slate-900 border border-slate-200 font-bold transition-all hover:border-red-600 hover:text-red-600 overflow-hidden flex items-center gap-2 md:gap-3"
               >
-                <span className="relative z-10 uppercase tracking-widest text-xs">
+                <span className="relative z-10 uppercase tracking-widest text-[10px] md:text-xs">
                   {language === 'ja' ? 'すべてのニュースを見る' : 'View All News'}
                 </span>
-                <span className="relative z-10 w-8 h-px bg-slate-200 group-hover:bg-red-600 group-hover:w-12 transition-all"></span>
+                <span className="relative z-10 w-6 md:w-8 h-px bg-slate-200 group-hover:bg-red-600 group-hover:w-10 md:group-hover:w-12 transition-all"></span>
               </Link>
             </div>
           )}
@@ -361,30 +361,30 @@ const News: React.FC<NewsProps> = ({ limit, isHome }) => {
             </div>
             
             {/* Content Side */}
-            <div className="flex-1 overflow-y-auto p-8 md:p-12 lg:p-16 bg-white">
-              <div className="flex justify-between items-start mb-10">
-                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">
+            <div className="flex-1 overflow-y-auto p-5 md:p-8 lg:p-12 xl:p-16 bg-white">
+              <div className="flex justify-between items-start mb-6 md:mb-10">
+                <div className="text-[9px] md:text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">
                   Date: {selectedItem.date}
                 </div>
                 <button
                   className="text-slate-400 hover:text-slate-900 transition-colors"
                   onClick={closeModal}
                 >
-                  <X size={24} />
+                  <X size={20} className="md:w-6 md:h-6" />
                 </button>
               </div>
               
-              <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-8 leading-tight uppercase tracking-tighter">
+              <h3 className="text-xl md:text-2xl lg:text-4xl font-black text-slate-900 mb-6 md:mb-8 leading-tight uppercase tracking-tighter">
                 {selectedItem.title[language]}
               </h3>
               
-              <div className="prose max-w-none text-slate-600 leading-relaxed font-medium text-lg whitespace-pre-line border-l border-red-600/30 pl-6">
+              <div className="prose max-w-none text-slate-600 leading-relaxed font-medium text-base md:text-lg whitespace-pre-line border-l border-red-600/30 pl-4 md:pl-6">
                 {renderContentWithLinks(selectedItem.content[language])}
               </div>
 
-              <div className="mt-12 flex justify-end">
+              <div className="mt-8 md:mt-12 flex justify-end">
                 <button
-                  className="px-8 py-3 bg-red-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-red-500 transition-colors"
+                  className="px-6 md:px-8 py-2 md:py-3 bg-red-600 text-white font-bold text-[10px] md:text-xs uppercase tracking-widest hover:bg-red-500 transition-colors"
                   onClick={closeModal}
                 >
                   {t.news.close}

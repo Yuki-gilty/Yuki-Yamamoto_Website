@@ -42,22 +42,22 @@ const YearTimeline: React.FC<{ year: string; achievements: string[]; language: '
   language,
 }) => {
   return (
-    <div className="relative pl-10 sm:pl-12 pb-12 md:pb-16 last:pb-0">
+    <div className="relative pl-8 md:pl-10 lg:pl-12 pb-8 md:pb-12 lg:pb-16 last:pb-0">
       {/* Timeline line */}
-      <div className="absolute left-[9px] sm:left-[11px] top-3 bottom-0 w-px bg-gradient-to-b from-red-600/50 via-red-600/20 to-transparent"></div>
+      <div className="absolute left-[7px] md:left-[9px] lg:left-[11px] top-3 bottom-0 w-px bg-gradient-to-b from-red-600/50 via-red-600/20 to-transparent"></div>
       
       {/* Year indicator */}
       <div className="absolute left-0 top-0 z-10">
-        <div className="w-[18px] h-[18px] sm:w-[23px] sm:h-[23px] rounded-full border-2 sm:border-4 border-white bg-red-600 shadow-lg shadow-red-600/20"></div>
-        <div className="absolute top-0 left-8 sm:left-10">
-          <span className="text-2xl sm:text-3xl font-black text-slate-900 tabular-nums leading-none">
+        <div className="w-[16px] h-[16px] md:w-[18px] md:h-[18px] lg:w-[23px] lg:h-[23px] rounded-full border-2 md:border-3 lg:border-4 border-white bg-red-600 shadow-lg shadow-red-600/20"></div>
+        <div className="absolute top-0 left-6 md:left-8 lg:left-10">
+          <span className="text-xl md:text-2xl lg:text-3xl font-black text-slate-900 tabular-nums leading-none">
             {year}
           </span>
         </div>
       </div>
       
-      <div className="pt-8 sm:pt-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 md:gap-x-8 gap-y-3 md:gap-y-4">
+      <div className="pt-6 md:pt-8 lg:pt-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-2 md:gap-y-3 lg:gap-y-4">
           {achievements.map((achievement, idx) => (
             <AchievementItem key={idx} text={achievement} language={language} />
           ))}
@@ -72,45 +72,45 @@ const Achievements: React.FC = () => {
   const t = translations[language];
 
   return (
-    <section id="achievements" className="py-16 sm:py-24 md:py-32 bg-white relative overflow-hidden">
+    <section id="achievements" className="py-12 sm:py-16 md:py-32 bg-white relative overflow-hidden">
       <div className="absolute inset-0 bg-diagonal-stripe opacity-5"></div>
       
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+        <div className="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-20">
           <div className="lg:w-1/4">
             <div className="lg:sticky lg:top-32">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="h-px w-12 bg-red-600"></div>
-                <span className="text-red-600 font-mono text-sm tracking-widest uppercase">Performance Log</span>
+              <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+                <div className="h-px w-8 md:w-12 bg-red-600"></div>
+                <span className="text-red-600 font-mono text-xs md:text-sm tracking-widest uppercase">Performance Log</span>
               </div>
-              <h3 className="text-4xl sm:text-5xl font-black text-slate-900 mb-8 leading-tight uppercase tracking-tighter">
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-6 md:mb-8 leading-tight uppercase tracking-tighter">
                 {t.achievements.title}
               </h3>
-              <p className="text-slate-500 text-lg leading-relaxed mb-10 font-medium">
+              <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-6 md:mb-10 font-medium">
                 {t.achievements.description}
               </p>
               
-              <div className="grid grid-cols-1 gap-4">
-                <div className="tech-border p-6 bg-white shadow-lg shadow-slate-100">
-                  <div className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">15+</div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">{t.achievements.totalWins}</div>
+              <div className="grid grid-cols-3 lg:grid-cols-1 gap-3 md:gap-4">
+                <div className="tech-border p-4 md:p-6 bg-white shadow-lg shadow-slate-100">
+                  <div className="text-2xl md:text-3xl font-black text-slate-900 mb-1 tracking-tighter">15+</div>
+                  <div className="text-[9px] md:text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">{t.achievements.totalWins}</div>
                 </div>
-                <div className="tech-border p-6 bg-white shadow-lg shadow-slate-100">
-                  <div className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">3</div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">{t.achievements.annualChampions}</div>
+                <div className="tech-border p-4 md:p-6 bg-white shadow-lg shadow-slate-100">
+                  <div className="text-2xl md:text-3xl font-black text-slate-900 mb-1 tracking-tighter">3</div>
+                  <div className="text-[9px] md:text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">{t.achievements.annualChampions}</div>
                 </div>
-                <div className="tech-border p-6 bg-white shadow-lg shadow-slate-100">
-                  <div className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">2</div>
-                  <div className="text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">{t.achievements.worldAwards}</div>
+                <div className="tech-border p-4 md:p-6 bg-white shadow-lg shadow-slate-100">
+                  <div className="text-2xl md:text-3xl font-black text-slate-900 mb-1 tracking-tighter">2</div>
+                  <div className="text-[9px] md:text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">{t.achievements.worldAwards}</div>
                 </div>
               </div>
             </div>
           </div>
           
           <div className="lg:w-3/4">
-            <div className="bg-slate-50 border border-slate-100 p-8 md:p-16 relative">
+            <div className="bg-slate-50 border border-slate-100 p-5 md:p-8 lg:p-16 relative">
               {/* Corner markings */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-red-600/5 rotate-45 translate-x-12 -translate-y-12"></div>
+              <div className="hidden md:block absolute top-0 right-0 w-24 h-24 bg-red-600/5 rotate-45 translate-x-12 -translate-y-12"></div>
               
               <div className="max-w-3xl relative z-10">
                 {Object.entries(achievements[language])

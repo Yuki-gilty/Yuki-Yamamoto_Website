@@ -104,45 +104,45 @@ const Sponsors: React.FC = () => {
   };
 
   return (
-    <section id="sponsors" className="py-16 sm:py-24 md:py-32 bg-white relative overflow-hidden">
+    <section id="sponsors" className="py-12 sm:py-16 md:py-32 bg-white relative overflow-hidden">
       <div className="absolute inset-0 bg-diagonal-stripe opacity-5"></div>
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
+        <div className="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-20 items-start">
           <div className="lg:w-1/3 w-full">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="h-px w-12 bg-red-600"></div>
-              <span className="text-red-600 font-mono text-sm tracking-widest uppercase">Supporters</span>
+            <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
+              <div className="h-px w-8 md:w-12 bg-red-600"></div>
+              <span className="text-red-600 font-mono text-xs md:text-sm tracking-widest uppercase">Supporters</span>
             </div>
-            <h3 className="text-4xl sm:text-5xl font-black text-slate-900 mb-8 leading-tight uppercase tracking-tighter">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 mb-6 md:mb-8 leading-tight uppercase tracking-tighter">
               {t.sponsors.title}
             </h3>
-            <p className="text-slate-500 text-lg leading-relaxed mb-10 font-medium">
+            <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-6 md:mb-10 font-medium">
               {t.sponsors.description}
             </p>
             
-            <div className="p-8 bg-slate-50 border-l-2 border-red-600">
-              <p className="text-slate-500 text-sm leading-relaxed whitespace-pre-line font-medium">
+            <div className="p-5 md:p-8 bg-slate-50 border-l-2 border-red-600">
+              <p className="text-slate-500 text-xs md:text-sm leading-relaxed whitespace-pre-line font-medium">
                 {t.sponsors.note}
               </p>
             </div>
           </div>
 
-          <div className="lg:w-2/3 w-full grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="lg:w-2/3 w-full grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {plans.map((plan) => (
               <div
                 key={plan.name[language]}
-                className="group bg-white border border-slate-100 p-8 flex flex-col relative transition-all duration-300 hover:border-red-600/50 shadow-sm hover:shadow-xl"
+                className="group bg-white border border-slate-100 p-5 md:p-8 flex flex-col relative transition-all duration-300 hover:border-red-600/50 shadow-sm hover:shadow-xl"
               >
-                <div className="absolute top-4 right-4 text-[10px] font-mono text-slate-300 uppercase tracking-widest">Plan_Type: {plan.name['en']}</div>
+                <div className="absolute top-3 md:top-4 right-3 md:right-4 text-[9px] md:text-[10px] font-mono text-slate-300 uppercase tracking-widest">Plan_Type: {plan.name['en']}</div>
                 
-                <div className="mb-8">
-                  <div className={`w-12 h-12 rounded-none bg-gradient-to-br ${plan.color} flex items-center justify-center mb-6 shadow-xl`}>
-                    <plan.icon className="w-6 h-6 text-white" />
+                <div className="mb-6 md:mb-8">
+                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-none bg-gradient-to-br ${plan.color} flex items-center justify-center mb-4 md:mb-6 shadow-xl`}>
+                    <plan.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
                   </div>
-                  <div className="text-3xl font-black text-slate-900 tracking-tighter">{plan.price[language]}</div>
+                  <div className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{plan.price[language]}</div>
                 </div>
 
-                <div className="space-y-4 mb-10 flex-1">
+                <div className="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-1">
                   <Feature
                     title={t.sponsors.uniform}
                     included={plan.features.uniform.included}
@@ -173,7 +173,7 @@ const Sponsors: React.FC = () => {
                   href="https://docs.google.com/forms/d/e/1FAIpQLSc1VSvn4AT8qFeVARlfM3duI1yuqyTgwUR1m4fKtQu3ur5LYw/viewform"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-4 bg-slate-900 text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-red-600 transition-all text-center relative overflow-hidden"
+                  className="w-full py-3 md:py-4 bg-slate-900 text-white font-black text-[10px] md:text-xs uppercase tracking-[0.2em] hover:bg-red-600 transition-all text-center relative overflow-hidden"
                 >
                   <span className="relative z-10">{t.sponsors.inquiry}</span>
                 </a>
