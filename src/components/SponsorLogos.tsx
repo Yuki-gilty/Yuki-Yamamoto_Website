@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../data/translations';
 
 interface Sponsor {
   name: string;
@@ -34,6 +37,8 @@ const sponsors: Sponsor[] = [
   }
 ];
 const SponsorLogos: React.FC = () => {
+  const { language } = useLanguage();
+  const t = translations[language];
   const mainSponsor = sponsors.find(s => s.name === 'Team BRIDE');
   const otherSponsors = sponsors.filter(s => s.name !== 'Team BRIDE');
 
@@ -105,6 +110,14 @@ const SponsorLogos: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Sponsor Plan Button - Bottom Right */}
+      <Link
+        to="/sponsors"
+        className="absolute bottom-2 right-2 md:bottom-4 md:right-4 bg-red-600 text-white px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-red-700 transition-all duration-300 shadow-lg hover:shadow-xl z-20"
+      >
+        {t.sponsors.sponsorPlanButton}
+      </Link>
     </section>
   );
 };

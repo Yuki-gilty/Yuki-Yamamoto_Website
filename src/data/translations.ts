@@ -70,6 +70,7 @@ export interface Translations {
     fpvGoggles: string;
     transmitter: string;
     battery: string;
+    sponsorPlanButton: string;
   };
   social: {
     title: string;
@@ -154,6 +155,7 @@ export const translations: Record<Language, Translations> = {
       fpvGoggles: 'FPVゴーグル',
       transmitter: 'プロポ',
       battery: 'バッテリー',
+      sponsorPlanButton: 'スポンサープランはこちらから',
     },
     social: {
       title: 'Social',
@@ -236,6 +238,7 @@ export const translations: Record<Language, Translations> = {
       fpvGoggles: 'FPV Goggles',
       transmitter: 'Transmitter',
       battery: 'Battery',
+      sponsorPlanButton: 'Sponsor Plans Here',
     },
     social: {
       title: 'Social Media',
