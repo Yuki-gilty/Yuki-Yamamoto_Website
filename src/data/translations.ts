@@ -52,6 +52,10 @@ export interface Translations {
     backToList: string;
     close: string;
   };
+  videos: {
+    title: string;
+    description: string;
+  };
   sponsors: {
     title: string;
     description: string;
@@ -82,12 +86,12 @@ export interface Translations {
 export const translations: Record<Language, Translations> = {
   ja: {
     header: {
-      home: 'ホーム',
-      about: 'プロフィール',
-      achievements: '実績',
-      gallery: 'ギャラリー',
-      news: 'お知らせ',
-      sponsors: 'スポンサー',
+      home: 'Home',
+      about: 'About',
+      achievements: 'Achievements',
+      gallery: 'Gallery',
+      news: 'News',
+      sponsors: 'Sponsors',
       language: 'Language',
     },
     hero: {
@@ -100,7 +104,7 @@ export const translations: Record<Language, Translations> = {
       achievements: '実績一覧',
     },
     about: {
-      title: 'プロフィール',
+      title: 'About',
       basicInfo: '基本情報',
       name: '名前',
       birthdate: '生年月日',
@@ -115,25 +119,29 @@ export const translations: Record<Language, Translations> = {
       badge3: 'WTW 全国チャンピオン',
     },
     achievements: {
-      title: '実績',
+      title: 'Achievements',
       description: '国内外の大会での主な戦績。2020年から現在に至るまでの成長の軌跡です。',
       totalWins: '総優勝回数',
       annualChampions: '年間チャンピオン',
       worldAwards: '世界大会入賞',
     },
     gallery: {
-      title: 'ギャラリー',
+      title: 'Gallery',
       description: '大会や練習風景の写真',
     },
     news: {
-      title: 'お知らせ',
+      title: 'News',
       description: '活動報告や最新情報をお届けします',
       viewDetails: '詳細を見る',
       backToList: '一覧に戻る',
       close: '閉じる',
     },
+    videos: {
+      title: 'Videos',
+      description: '大会や練習の動画を公開しています',
+    },
     sponsors: {
-      title: 'スポンサー募集',
+      title: 'Sponsors',
       description: 'ドローンレース活動をサポートしていただけるスポンサー様を募集しています',
       note: '※ 金額は目安です。詳細は個別にご相談させていただきます。\nお問い合わせは各SNSのダイレクトメッセージ、またはメールにてご連絡ください。',
       inquiry: 'プラン詳細を問い合わせる',
@@ -148,7 +156,7 @@ export const translations: Record<Language, Translations> = {
       battery: 'バッテリー',
     },
     social: {
-      title: 'SNS',
+      title: 'Social',
       description: '各SNSでは日々の活動や大会の様子を発信しています',
       contact: 'お問い合わせやコラボレーションのご相談は各SNSよりご連絡ください',
     },
@@ -209,6 +217,10 @@ export const translations: Record<Language, Translations> = {
       viewDetails: 'View Details',
       backToList: 'Back to List',
       close: 'Close',
+    },
+    videos: {
+      title: 'Videos',
+      description: 'Videos from competitions and practice sessions',
     },
     sponsors: {
       title: 'Sponsor Recruitment',

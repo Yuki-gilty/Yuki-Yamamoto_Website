@@ -21,30 +21,48 @@ const Gallery: React.FC = () => {
   
   return (
     <section id="gallery" className="py-16 sm:py-24 md:py-32 bg-white relative overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="text-center mb-12 md:mb-16 lg:mb-20">
-          <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">{t.gallery.title}</h3>
-          <p className="text-gray-500 mt-4 md:mt-6 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed px-4">
+      <div className="absolute inset-0 bg-diagonal-stripe opacity-5"></div>
+      
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-20 gap-8">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="h-px w-12 bg-red-600"></div>
+              <span className="text-red-600 font-mono text-sm tracking-widest uppercase">Visual Database</span>
+            </div>
+            <h3 className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 leading-tight uppercase tracking-tighter">
+              {t.gallery.title}
+            </h3>
+          </div>
+          <p className="text-slate-500 text-lg max-w-sm font-medium border-l-2 border-slate-100 pl-6">
             {t.gallery.description}
           </p>
         </div>
         
-        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-6 space-y-4 md:space-y-6">
+        <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6">
           {galleryImages.map((image, index) => (
             <div 
               key={index}
-              className="relative break-inside-avoid rounded-2xl md:rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer group border border-gray-100"
+              className="relative break-inside-avoid bg-white border border-slate-100 p-3 transition-all duration-500 cursor-pointer group hover:border-red-600/50 shadow-sm hover:shadow-xl"
               onClick={() => openModal(image.url)}
             >
-              <img 
-                src={image.url} 
-                alt={image.caption[language]} 
-                className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 md:p-6">
-                <p className="text-white text-xs sm:text-sm font-medium transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+              <div className="relative overflow-hidden aspect-auto">
+                <img 
+                  src={image.url} 
+                  alt={image.caption[language]} 
+                  className="w-full h-auto object-cover transition-all duration-700 group-hover:scale-105"
+                />
+                {/* Image overlay with tech info */}
+                <div className="absolute top-2 left-2 text-[8px] font-mono text-white bg-black/50 px-1 opacity-0 group-hover:opacity-100 transition-opacity uppercase">
+                  IMG_REF: {index.toString().padStart(3, '0')}
+                </div>
+              </div>
+              
+              <div className="mt-3 flex justify-between items-center">
+                <p className="text-slate-400 text-[10px] font-mono uppercase tracking-widest truncate pr-4">
                   {image.caption[language]}
                 </p>
+                <div className="w-1.5 h-1.5 rounded-full bg-slate-100 group-hover:bg-red-600 transition-colors"></div>
               </div>
             </div>
           ))}
@@ -54,27 +72,32 @@ const Gallery: React.FC = () => {
       {/* Refined Image Modal */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-10"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-10"
           onClick={closeModal}
         >
-          <div className="absolute inset-0 bg-gray-900/90 backdrop-blur-md transition-opacity"></div>
+          <div className="absolute inset-0 bg-white/95 backdrop-blur-xl transition-opacity"></div>
           
           <button 
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/60 hover:text-white p-2 sm:p-3 rounded-full hover:bg-white/10 transition-all z-10"
+            className="absolute top-6 right-6 text-slate-400 hover:text-slate-900 transition-all z-10"
             onClick={closeModal}
           >
-            <X size={24} className="sm:w-8 sm:h-8" />
+            <X size={32} />
           </button>
           
           <div 
-            className="relative max-w-6xl max-h-full animate-fade-in w-full"
+            className="relative max-w-6xl max-h-full animate-fade-in w-full tech-border bg-white p-2 shadow-2xl"
             onClick={e => e.stopPropagation()}
           >
             <img 
               src={selectedImage} 
               alt="" 
-              className="w-full h-auto max-h-[90vh] sm:max-h-[85vh] object-contain rounded-xl sm:rounded-2xl shadow-2xl"
+              className="w-full h-auto max-h-[85vh] object-contain"
             />
+            {/* Modal metadata overlay */}
+            <div className="absolute -bottom-10 left-0 w-full flex justify-between text-[10px] font-mono text-slate-400 uppercase tracking-widest">
+              <span>Status: Previewing_Full_Resolution</span>
+              <span>Source: Internal_Archive</span>
+            </div>
           </div>
         </div>
       )}

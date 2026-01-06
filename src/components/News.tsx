@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { CalendarDays, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../data/translations';
@@ -176,7 +177,7 @@ const renderContentWithLinks = (text: string) => {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 hover:text-blue-800 underline break-all"
+          className="text-blue-400 hover:text-blue-300 underline break-all"
         >
           {part}
         </a>
@@ -187,156 +188,207 @@ const renderContentWithLinks = (text: string) => {
   });
 };
 
-const News: React.FC = () => {
+interface NewsProps {
+  limit?: number;
+  isHome?: boolean;
+}
+
+const News: React.FC<NewsProps> = ({ limit, isHome }) => {
   const { language } = useLanguage();
   const t = translations[language];
   const [selectedItem, setSelectedItem] = useState<NewsItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   
+  const [isOpening, setIsOpening] = useState(false);
+
   const openModal = (item: NewsItem) => {
     setSelectedItem(item);
+    setIsOpening(true);
     setIsClosing(false);
     document.body.style.overflow = 'hidden';
+    // 次のフレームでアニメーションを確実にトリガー
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setIsOpening(false);
+      });
+    });
   };
-  
+
   const closeModal = () => {
     setIsClosing(true);
+    document.body.style.overflow = 'auto';
     setTimeout(() => {
       setSelectedItem(null);
       setIsClosing(false);
-      document.body.style.overflow = 'auto';
-    }, 300); // アニメーション時間（duration-300）と合わせる
+    }, 500); // アニメーション時間（duration-500）と合わせる
   };
 
   const sortedItems = [...newsItems].sort((a, b) => 
     new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
+  const displayItems = limit ? sortedItems.slice(0, limit) : sortedItems;
+
   return (
-    <section id="news" className="py-16 sm:py-24 md:py-32 bg-slate-50">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 md:mb-12 lg:mb-16 gap-4 md:gap-6">
-          <div>
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 leading-tight">{t.news.title}</h3>
+    <section id="news" className={`${isHome ? 'py-12 sm:py-16 md:py-20' : 'py-16 sm:py-24 md:py-32'} bg-white relative overflow-hidden`}>
+      <div className="absolute inset-0 bg-diagonal-stripe opacity-5"></div>
+      
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className={`flex flex-col ${isHome ? 'items-center text-center' : 'md:flex-row md:items-end justify-between'} ${isHome ? 'mb-8 md:mb-12' : 'mb-12 md:mb-20'} gap-8`}>
+          <div className={`${isHome ? 'max-w-3xl' : 'max-w-2xl'}`}>
+            <div className={`flex items-center ${isHome ? 'justify-center' : ''} gap-4 mb-4`}>
+              <div className="h-px w-12 bg-red-600"></div>
+              <span className={`text-red-600 font-mono ${isHome ? 'text-xs' : 'text-sm'} tracking-widest uppercase`}>Latest Updates</span>
+              {isHome && <div className="h-px w-12 bg-red-600"></div>}
+            </div>
+            <h3 className={`${isHome ? 'text-2xl sm:text-3xl md:text-4xl' : 'text-4xl sm:text-5xl md:text-6xl'} font-black text-slate-900 leading-tight`}>
+              News & <span className="text-red-600">Moments</span>
+            </h3>
           </div>
-          <p className="text-gray-500 text-base sm:text-lg max-w-md">
-            {t.news.description}
-          </p>
+          {!isHome && (
+            <p className="text-slate-500 text-lg max-w-sm font-medium border-l-2 border-slate-100 pl-6">
+              {t.news.description}
+            </p>
+          )}
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {sortedItems.map((item, index) => {
-            const formattedDate = new Date(item.date).toLocaleDateString(language === 'ja' ? 'ja-JP' : 'en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            });
+        <div className={`${isHome ? 'max-w-5xl mx-auto' : ''}`}>
+          <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ${isHome ? 'gap-4 md:gap-6' : 'gap-10 md:gap-12'}`}>
+            {displayItems.map((item, index) => {
+              const formattedDate = new Date(item.date).toLocaleDateString(language === 'ja' ? 'ja-JP' : 'en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              });
 
-            return (
-              <div
-                key={index}
-                className="group bg-white rounded-2xl md:rounded-[2rem] overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer flex flex-col"
-                onClick={() => openModal(item)}
+              // Alternate rotation for a more "natural" feel
+              const rotation = index % 2 === 0 ? 'hover:rotate-1' : 'hover:-rotate-1';
+
+              return (
+                <div
+                  key={index}
+                  className="flex flex-col group cursor-pointer"
+                  onClick={() => openModal(item)}
+                >
+                  <div className={`relative bg-white border border-slate-100 ${isHome ? 'p-2.5' : 'p-4'} transition-all duration-500 shadow-sm hover:shadow-md ${rotation}`}>
+                    {/* Decorative corner */}
+                    <div className="absolute -top-px -right-px w-6 h-6 bg-slate-50 border-b border-l border-slate-100"></div>
+                    
+                    <div className={`relative aspect-[16/10] overflow-hidden ${isHome ? 'mb-3' : 'mb-6'} bg-slate-50`}>
+                      {item.imageUrl ? (
+                        <img
+                          src={item.imageUrl}
+                          alt={item.title[language]}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <p className="text-slate-300 font-mono text-[10px] uppercase tracking-widest text-center">No visual<br/>data_available</p>
+                        </div>
+                      )}
+                      
+                      <div className={`absolute top-0 left-0 bg-red-600 text-white ${isHome ? 'px-1.5 py-0.5 text-[7px]' : 'px-3 py-1 text-[10px]'} font-mono font-bold uppercase tracking-widest`}>
+                        {formattedDate}
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col">
+                      <div className="text-[9px] font-mono text-slate-400 uppercase tracking-widest mb-1.5 flex justify-between">
+                        <span>File: NEWS_00{newsItems.length - index}</span>
+                        <span className="text-red-600 opacity-0 group-hover:opacity-100 transition-opacity font-bold text-[7px]">OPEN_FILE</span>
+                      </div>
+                      <h3 className={`font-bold ${isHome ? 'text-sm' : 'text-xl'} text-slate-900 leading-tight group-hover:text-red-600 transition-colors line-clamp-2 uppercase tracking-tighter`}>
+                        {item.title[language]}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Details - Moved outside the white border */}
+                  <div className={`mt-3 px-1 flex items-center justify-between text-[9px] font-mono text-slate-400 uppercase tracking-widest`}>
+                    <span className="group-hover:text-red-600 transition-colors font-bold">
+                      {language === 'ja' ? '詳細' : 'Details'}
+                    </span>
+                    <span className={`w-8 h-px bg-slate-200 group-hover:w-12 group-hover:bg-red-600 transition-all duration-300`}></span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {isHome && (
+            <div className="mt-12 md:mt-16 flex justify-center">
+              <Link 
+                to="/news"
+                className="group relative px-10 py-4 bg-white text-slate-900 border border-slate-200 font-bold transition-all hover:border-red-600 hover:text-red-600 overflow-hidden flex items-center gap-3"
               >
-                <div className="relative aspect-[16/10] overflow-hidden">
-                  {item.imageUrl ? (
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title[language]}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                      <p className="text-gray-300 text-xs sm:text-sm">No Image</p>
-                    </div>
-                  )}
-                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
-                    <div className="bg-white/90 backdrop-blur-sm px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-xs font-bold text-gray-900 shadow-sm">
-                      {formattedDate}
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="p-6 sm:p-8 flex-1 flex flex-col">
-                  <h3 className="font-bold text-lg sm:text-xl text-gray-900 leading-tight mb-3 sm:mb-4 group-hover:text-rose-600 transition-colors line-clamp-2">
-                    {item.title[language]}
-                  </h3>
-                  <div className="mt-auto flex items-center text-rose-600 font-bold text-xs sm:text-sm">
-                    {t.news.viewDetails}
-                    <span className="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+                <span className="relative z-10 uppercase tracking-widest text-xs">
+                  {language === 'ja' ? 'すべてのニュースを見る' : 'View All News'}
+                </span>
+                <span className="relative z-10 w-8 h-px bg-slate-200 group-hover:bg-red-600 group-hover:w-12 transition-all"></span>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
       
-      {/* Detail View - Compact Fullscreen View */}
+      {/* Detail View - Refined for "Dossier" feel */}
       {selectedItem && (
         <div 
-          className={`fixed inset-0 z-[100] bg-white flex flex-col transition-all duration-300 ease-out ${
-            isClosing ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+          className={`fixed inset-0 z-[100] bg-white/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 md:p-10 transition-all duration-500 ease-out ${
+            isClosing || isOpening ? 'opacity-0' : 'opacity-100'
           }`}
-          style={{ 
-            animation: !isClosing ? 'slideUpFade 0.4s ease-out forwards' : 'none' 
-          }}
+          onClick={closeModal}
         >
-          {/* Top Navigation Bar */}
-          <div className="flex-none bg-white border-b border-gray-100">
-            <div className="container mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
-              <div className="flex items-center gap-2 sm:gap-3">
-                <CalendarDays size={16} className="sm:w-[18px] sm:h-[18px] text-rose-600" />
-                <time className="text-xs sm:text-sm font-bold text-gray-900">
-                  {new Date(selectedItem.date).toLocaleDateString(language === 'ja' ? 'ja-JP' : 'en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </time>
-              </div>
-              
-              <button
-                className="flex items-center gap-1 sm:gap-2 text-gray-500 hover:text-gray-900 font-bold transition-colors text-xs sm:text-sm"
-                onClick={closeModal}
-              >
-                <span className="hidden sm:inline">{t.news.backToList}</span>
-                <X size={18} className="sm:w-5 sm:h-5" />
-              </button>
-            </div>
-          </div>
-          
-          <div className="flex-1 overflow-hidden flex flex-col lg:flex-row">
+          <div 
+            className={`bg-white w-full max-w-6xl max-h-full overflow-hidden relative flex flex-col md:flex-row tech-border shadow-2xl transition-all duration-500 ease-out ${
+              isClosing || isOpening ? 'opacity-0 scale-95 translate-y-4' : 'opacity-100 scale-100 translate-y-0'
+            }`}
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Image Side */}
-            {selectedItem.imageUrl && (
-              <div className="w-full lg:w-1/2 h-48 sm:h-64 md:h-80 lg:h-full flex-none bg-white flex items-center justify-center overflow-hidden p-3 sm:p-4 md:p-8">
+            <div className="w-full md:w-1/2 bg-slate-50 flex items-center justify-center overflow-hidden relative">
+              {selectedItem.imageUrl ? (
                 <img
                   src={selectedItem.imageUrl}
                   alt={selectedItem.title[language]}
-                  className="relative z-10 max-w-full max-h-full object-contain rounded-lg sm:rounded-xl shadow-sm"
+                  className="w-full h-full object-contain p-4 md:p-8"
                 />
-              </div>
-            )}
+              ) : (
+                <div className="text-slate-300 font-mono">NO_IMAGE_DATA</div>
+              )}
+              {/* Scanline effect on image */}
+              <div className="absolute inset-0 pointer-events-none opacity-5 bg-grid-pattern"></div>
+            </div>
             
             {/* Content Side */}
-            <div className={`flex-1 overflow-y-auto p-6 sm:p-8 md:p-12 lg:p-16 ${!selectedItem.imageUrl ? 'lg:max-w-4xl lg:mx-auto' : ''}`}>
-              <div className="max-w-2xl">
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-6 sm:mb-8 leading-tight">
-                  {selectedItem.title[language]}
-                </h3>
-                
-                <div className="prose prose-sm md:prose-base max-w-none text-gray-600 leading-relaxed whitespace-pre-line text-sm sm:text-base">
-                  {renderContentWithLinks(selectedItem.content[language])}
+            <div className="flex-1 overflow-y-auto p-8 md:p-12 lg:p-16 bg-white">
+              <div className="flex justify-between items-start mb-10">
+                <div className="text-[10px] font-mono text-slate-400 uppercase tracking-[0.2em]">
+                  Date: {selectedItem.date}
                 </div>
+                <button
+                  className="text-slate-400 hover:text-slate-900 transition-colors"
+                  onClick={closeModal}
+                >
+                  <X size={24} />
+                </button>
+              </div>
+              
+              <h3 className="text-2xl md:text-4xl font-black text-slate-900 mb-8 leading-tight uppercase tracking-tighter">
+                {selectedItem.title[language]}
+              </h3>
+              
+              <div className="prose max-w-none text-slate-600 leading-relaxed font-medium text-lg whitespace-pre-line border-l border-red-600/30 pl-6">
+                {renderContentWithLinks(selectedItem.content[language])}
+              </div>
 
-                <div className="mt-8 sm:mt-12 pt-8 sm:pt-12 border-t border-gray-100 lg:hidden">
-                  <button
-                    className="w-full py-3 sm:py-4 bg-gray-900 text-white rounded-xl sm:rounded-2xl font-bold text-sm sm:text-base"
-                    onClick={closeModal}
-                  >
-                    {t.news.close}
-                  </button>
-                </div>
+              <div className="mt-12 flex justify-end">
+                <button
+                  className="px-8 py-3 bg-red-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-red-500 transition-colors"
+                  onClick={closeModal}
+                >
+                  {t.news.close}
+                </button>
               </div>
             </div>
           </div>

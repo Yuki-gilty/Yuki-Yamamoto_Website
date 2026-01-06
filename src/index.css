@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --primary: #1a1a1a;
-  --accent: #e11d48;
-  --secondary: #4b5563;
+  --primary: #0f172a;
+  --accent: #ef4444;
+  --accent-orange: #f97316;
+  --secondary: #64748b;
   --background: #ffffff;
-  --surface: #f9fafb;
+  --surface: #f8fafc;
 }
 
 html {
@@ -15,7 +16,22 @@ html {
 }
 
 body {
-  @apply antialiased text-gray-900 bg-white;
+  @apply antialiased text-slate-900 bg-white selection:bg-red-500/10;
+  position: relative;
+}
+
+/* Noise texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 50;
 }
 
 @layer components {
@@ -24,11 +40,25 @@ body {
   }
   
   .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+    @apply bg-white/60 backdrop-blur-md border border-slate-200 shadow-2xl;
   }
   
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-600 to-slate-900;
+  }
+
+  .tech-border {
+    @apply relative border border-slate-200 bg-slate-50;
+  }
+
+  .tech-border::before {
+    content: "";
+    @apply absolute -top-px -left-px w-2 h-2 border-t border-l border-red-500;
+  }
+
+  .tech-border::after {
+    content: "";
+    @apply absolute -bottom-px -right-px w-2 h-2 border-b border-r border-red-500;
   }
 }
 
@@ -42,32 +72,46 @@ body {
   }
   
   .animate-slide-up {
-    animation: slideUp 0.8s ease-out both;
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
   
   .animate-slide-up-delay {
-    animation: slideUp 0.8s ease-out 0.2s both;
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulseSlow 4s ease-in-out infinite;
   }
   
   .bg-grid-pattern {
-    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-    background-size: 20px 20px;
+    background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  
+  .bg-diagonal-stripe {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(0, 0, 0, 0.02) 10px,
+      rgba(0, 0, 0, 0.02) 11px
+    );
   }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -84,4 +128,14 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(2deg); }
+  50% { transform: translateY(-15px) rotate(-1deg); }
+}
+
+@keyframes pulseSlow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
 }

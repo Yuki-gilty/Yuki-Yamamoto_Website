@@ -104,39 +104,45 @@ const Sponsors: React.FC = () => {
   };
 
   return (
-    <section id="sponsors" className="py-16 sm:py-24 md:py-32 bg-slate-50 relative overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6">
-        <div className="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-20 items-start">
+    <section id="sponsors" className="py-16 sm:py-24 md:py-32 bg-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-diagonal-stripe opacity-5"></div>
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
           <div className="lg:w-1/3 w-full">
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 md:mb-8 leading-tight">{t.sponsors.title}</h3>
-            <p className="text-gray-500 text-base sm:text-lg leading-relaxed mb-6 md:mb-10">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="h-px w-12 bg-red-600"></div>
+              <span className="text-red-600 font-mono text-sm tracking-widest uppercase">Supporters</span>
+            </div>
+            <h3 className="text-4xl sm:text-5xl font-black text-slate-900 mb-8 leading-tight uppercase tracking-tighter">
+              {t.sponsors.title}
+            </h3>
+            <p className="text-slate-500 text-lg leading-relaxed mb-10 font-medium">
               {t.sponsors.description}
             </p>
             
-            <div className="p-6 sm:p-8 bg-white rounded-2xl md:rounded-3xl border border-gray-100 shadow-sm">
-              <p className="text-gray-600 text-xs sm:text-sm leading-relaxed whitespace-pre-line">
+            <div className="p-8 bg-slate-50 border-l-2 border-red-600">
+              <p className="text-slate-500 text-sm leading-relaxed whitespace-pre-line font-medium">
                 {t.sponsors.note}
               </p>
             </div>
           </div>
 
-          <div className="lg:w-2/3 w-full grid sm:grid-cols-2 gap-4 md:gap-6">
+          <div className="lg:w-2/3 w-full grid grid-cols-1 md:grid-cols-3 gap-6">
             {plans.map((plan) => (
               <div
                 key={plan.name[language]}
-                className="group bg-white rounded-2xl md:rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 p-6 sm:p-8 md:p-10 flex flex-col"
+                className="group bg-white border border-slate-100 p-8 flex flex-col relative transition-all duration-300 hover:border-red-600/50 shadow-sm hover:shadow-xl"
               >
-                <div className="flex justify-between items-start mb-6 md:mb-8">
-                  <div className={`p-3 sm:p-4 rounded-xl md:rounded-2xl bg-gradient-to-br ${plan.color} text-white shadow-lg`}>
-                    <plan.icon className="w-6 h-6 sm:w-8 sm:h-8" />
+                <div className="absolute top-4 right-4 text-[10px] font-mono text-slate-300 uppercase tracking-widest">Plan_Type: {plan.name['en']}</div>
+                
+                <div className="mb-8">
+                  <div className={`w-12 h-12 rounded-none bg-gradient-to-br ${plan.color} flex items-center justify-center mb-6 shadow-xl`}>
+                    <plan.icon className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-right">
-                    <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{plan.name[language]}</div>
-                    <div className="text-2xl sm:text-3xl font-black text-gray-900">{plan.price[language]}</div>
-                  </div>
+                  <div className="text-3xl font-black text-slate-900 tracking-tighter">{plan.price[language]}</div>
                 </div>
 
-                <div className="space-y-3 md:space-y-4 mb-6 md:mb-10 flex-1">
+                <div className="space-y-4 mb-10 flex-1">
                   <Feature
                     title={t.sponsors.uniform}
                     included={plan.features.uniform.included}
@@ -167,9 +173,9 @@ const Sponsors: React.FC = () => {
                   href="https://docs.google.com/forms/d/e/1FAIpQLSc1VSvn4AT8qFeVARlfM3duI1yuqyTgwUR1m4fKtQu3ur5LYw/viewform"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-3 md:py-4 bg-gray-900 text-white rounded-xl md:rounded-2xl font-bold hover:bg-rose-600 transition-all hover:shadow-lg text-sm sm:text-base text-center block"
+                  className="w-full py-4 bg-slate-900 text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-red-600 transition-all text-center relative overflow-hidden"
                 >
-                  {t.sponsors.inquiry}
+                  <span className="relative z-10">{t.sponsors.inquiry}</span>
                 </a>
               </div>
             ))}
@@ -187,7 +193,7 @@ const Feature: React.FC<{ title: string; included: boolean }> = ({
   <div className="flex items-center group/item">
     <div
       className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center transition-colors flex-shrink-0 ${
-        included ? 'bg-rose-100 text-rose-600' : 'bg-gray-50 text-gray-200'
+        included ? 'bg-red-50 border border-red-200 text-red-600' : 'bg-slate-50 border border-slate-100 text-slate-300'
       }`}
     >
       {included ? (
@@ -200,7 +206,7 @@ const Feature: React.FC<{ title: string; included: boolean }> = ({
         </svg>
       )}
     </div>
-    <span className={`ml-3 sm:ml-4 text-xs sm:text-sm font-medium transition-colors ${included ? 'text-gray-700 group-hover/item:text-gray-900' : 'text-gray-300 line-through'}`}>
+    <span className={`ml-3 sm:ml-4 text-xs sm:text-sm font-medium transition-colors ${included ? 'text-slate-600 group-hover/item:text-slate-900' : 'text-slate-300 line-through'}`}>
       {title}
     </span>
   </div>
