@@ -5,9 +5,9 @@ export const achievements: Record<Language, Record<string, string[]>> = {
     '2025': [
       'FAI Riyadh RDWC 10位',
       'WTW 全国大会 2025 東京予選　優勝',
-      'JDL 2025 Roun2 Pro Class 準優勝',
+      'JDL 2025 Round2 Pro Class 準優勝',
       'MultiGP Internatinal Open 9位',
-      'FAI WDC2025 Junior class 4位',
+      'FAI WDC2025 Junior Class 4位',
       'MultiGP MultiGP European Championship 15位',
       'MultiGP Championship Pro Class 11位',
       'JDL Round7 Pro Class 3位',
