@@ -127,59 +127,80 @@ const Sponsors: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:w-2/3 w-full grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            {plans.map((plan) => (
-              <div
-                key={plan.name[language]}
-                className="group bg-white border border-slate-100 p-5 md:p-8 flex flex-col relative transition-all duration-300 hover:border-red-600/50 shadow-sm hover:shadow-xl"
-              >
-                <div className="absolute top-3 md:top-4 right-3 md:right-4 text-[9px] md:text-[10px] font-mono text-slate-300 uppercase tracking-widest">Plan_Type: {plan.name['en']}</div>
-                
-                <div className="mb-6 md:mb-8">
-                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-none bg-gradient-to-br ${plan.color} flex items-center justify-center mb-4 md:mb-6 shadow-xl`}>
-                    <plan.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
-                  </div>
-                  <div className="text-2xl md:text-3xl font-black text-slate-900 tracking-tighter">{plan.price[language]}</div>
-                </div>
-
-                <div className="space-y-3 md:space-y-4 mb-8 md:mb-10 flex-1">
-                  <Feature
-                    title={t.sponsors.uniform}
-                    included={plan.features.uniform.included}
-                  />
-                  <Feature
-                    title={`${t.sponsors.sticker} (${plan.features.sticker.detail ? getStickerDetail(plan.features.sticker.detail) : ''})`}
-                    included={plan.features.sticker.included}
-                  />
-                  <Feature
-                    title={t.sponsors.photos}
-                    included={plan.features.photos.included}
-                  />
-                  <Feature
-                    title={t.sponsors.social}
-                    included={plan.features.social.included}
-                  />
-                  <Feature
-                    title={t.sponsors.speaking}
-                    included={plan.features.speaking.included}
-                  />
-                  <Feature
-                    title={t.sponsors.goods}
-                    included={plan.features.goods.included}
-                  />
-                </div>
-
-                <a
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSc1VSvn4AT8qFeVARlfM3duI1yuqyTgwUR1m4fKtQu3ur5LYw/viewform"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3 md:py-4 bg-slate-900 text-white font-black text-[10px] md:text-xs uppercase tracking-[0.2em] hover:bg-red-600 transition-all text-center relative overflow-hidden"
+            <div className="lg:w-2/3 w-full grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              {plans.map((plan) => (
+                <div
+                  key={plan.name[language]}
+                  className="group bg-white border border-slate-100 p-6 md:p-8 flex flex-col relative transition-all duration-300 hover:border-red-600/50 shadow-sm hover:shadow-2xl hover:-translate-y-1"
                 >
-                  <span className="relative z-10">{t.sponsors.inquiry}</span>
-                </a>
-              </div>
-            ))}
-          </div>
+                  <div className="absolute top-4 right-4 text-[8px] font-mono text-slate-300 uppercase tracking-widest">Type_{plan.name['en'].charAt(0)}</div>
+                  
+                  <div className="mb-8">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className={`w-12 h-12 rounded-none bg-gradient-to-br ${plan.color} flex items-center justify-center shadow-xl rotate-3 group-hover:rotate-0 transition-transform duration-500`}>
+                        <plan.icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none mb-1">Plan</div>
+                        <div className="text-xl font-black text-slate-900 tracking-tighter leading-none">{plan.name[language]}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4 mb-10 flex-1">
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <span className="w-4 h-[1px] bg-slate-200"></span>
+                      Benefits
+                    </div>
+                    <Feature
+                      title={t.sponsors.uniform}
+                      included={plan.features.uniform.included}
+                    />
+                    <Feature
+                      title={`${t.sponsors.sticker} (${plan.features.sticker.detail ? getStickerDetail(plan.features.sticker.detail) : ''})`}
+                      included={plan.features.sticker.included}
+                    />
+                    <Feature
+                      title={t.sponsors.photos}
+                      included={plan.features.photos.included}
+                    />
+                    <Feature
+                      title={t.sponsors.social}
+                      included={plan.features.social.included}
+                    />
+                    <Feature
+                      title={t.sponsors.speaking}
+                      included={plan.features.speaking.included}
+                    />
+                    <Feature
+                      title={t.sponsors.goods}
+                      included={plan.features.goods.included}
+                    />
+                  </div>
+
+                  <div className="mt-auto pt-8 border-t border-slate-50">
+                    <div className="mb-6">
+                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Price</div>
+                      <div className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter">
+                        {plan.price[language]}
+                      </div>
+                    </div>
+
+                    <a
+                      href="https://docs.google.com/forms/d/e/1FAIpQLSc1VSvn4AT8qFeVARlfM3duI1yuqyTgwUR1m4fKtQu3ur5LYw/viewform"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-4 bg-slate-900 hover:bg-red-600 text-white font-black text-[10px] uppercase tracking-[0.2em] transition-all text-center relative overflow-hidden group/btn flex items-center justify-center gap-2"
+                    >
+                      <span className="relative z-10">{t.sponsors.inquiry}</span>
+                      <svg className="w-3 h-3 relative z-10 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
         </div>
       </div>
     </section>

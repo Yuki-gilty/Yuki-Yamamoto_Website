@@ -95,15 +95,29 @@ const About: React.FC = () => {
               </div>
 
               {/* Achievements Link Button */}
-              <div className="mt-8 md:mt-12 flex justify-end">
+              <div className="mt-10 md:mt-14 flex flex-col items-end gap-3 md:gap-4">
                 <Link 
                   to="/achievements"
-                  className="group relative px-6 md:px-8 py-2 md:py-3 bg-white text-slate-900 border border-slate-200 font-bold transition-all hover:border-red-600 hover:text-red-600 overflow-hidden flex items-center gap-2 md:gap-3 shadow-md"
+                  className="group relative inline-flex items-center gap-3 md:gap-4 px-7 md:px-10 py-3.5 md:py-4 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-red-600 text-white font-extrabold text-xs md:text-sm tracking-[0.18em] uppercase shadow-lg shadow-red-900/40 transition-all duration-300 hover:shadow-xl hover:shadow-red-900/60 hover:translate-y-[-2px]"
                 >
-                  <span className="relative z-10 uppercase tracking-widest text-[10px] md:text-xs">
-                    {language === 'ja' ? '実績はこちら' : 'View Achievements'}
+                  <span className="relative z-10 flex items-center gap-2">
+                    <span className="inline-block w-2 h-2 rounded-full bg-white/90 animate-pulse"></span>
+                    {language === 'ja' ? '国内外レース実績を見る' : 'View Achievements'}
                   </span>
-                  <span className="relative z-10 w-5 md:w-6 h-px bg-slate-200 group-hover:w-8 md:group-hover:w-10 group-hover:bg-red-600 transition-all duration-300"></span>
+                  <span className="relative z-10 w-10 md:w-12 h-[2px] bg-white/70 group-hover:w-14 md:group-hover:w-16 transition-all duration-300"></span>
+                  <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </Link>
+
+                <Link
+                  to="/sponsors"
+                  className="group relative inline-flex items-center gap-3 md:gap-4 px-7 md:px-10 py-3.5 md:py-4 rounded-full bg-white text-red-600 border border-red-200 font-extrabold text-xs md:text-sm tracking-[0.18em] uppercase shadow-md shadow-red-100 transition-all duration-300 hover:border-red-400 hover:shadow-lg hover:translate-y-[-2px]"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                    {language === 'ja' ? 'スポンサープランのご相談はこちらから' : 'Become a Sponsor'}
+                  </span>
+                  <span className="relative z-10 w-10 md:w-12 h-[2px] bg-red-200 group-hover:w-14 md:group-hover:w-16 group-hover:bg-red-400 transition-all duration-300"></span>
+                  <span className="absolute inset-0 rounded-full bg-red-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                 </Link>
               </div>
             </div>

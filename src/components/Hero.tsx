@@ -46,18 +46,18 @@ const Hero: React.FC = () => {
             {/* シンプルな構成にするため、数字のカードなどは削除 */}
 
             <div className="flex flex-col items-start gap-2 animate-fade-in-delay">
-              <Link 
-                to="/about"
-                className="group relative px-6 md:px-10 py-3 md:py-4 bg-red-600 text-white rounded-none font-bold text-sm md:text-base lg:text-lg transition-all hover:bg-red-500 overflow-hidden text-center shadow-lg shadow-red-900/40"
+              <button 
+                onClick={() => {
+                  const aboutSection = document.getElementById('about');
+                  if (aboutSection) {
+                    aboutSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                className="group inline-flex items-center justify-center px-6 py-2 border border-white/50 text-white/80 font-bold text-xs md:text-sm tracking-widest uppercase transition-all duration-300 hover:text-white active:scale-95 relative overflow-hidden"
               >
                 <span className="relative z-10">{t.hero.viewProfile}</span>
-              </Link>
-              <Link 
-                to="/achievements"
-                className="mt-1 px-3 md:px-4 py-1 md:py-1.5 bg-transparent text-gray-300/70 border border-gray-500/60 rounded-none font-medium text-[10px] md:text-[11px] lg:text-xs transition-all text-center self-start"
-              >
-                <span className="relative z-10">{t.hero.achievements}</span>
-              </Link>
+                <span className="absolute bottom-0 left-0 w-full h-[1px] bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              </button>
             </div>
           </div>
 
@@ -79,9 +79,9 @@ const Hero: React.FC = () => {
 
       <button 
         onClick={() => {
-          const upcomingSection = document.getElementById('upcoming');
-          if (upcomingSection) {
-            upcomingSection.scrollIntoView({ behavior: 'smooth' });
+          const aboutSection = document.getElementById('about');
+          if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: 'smooth' });
           }
         }}
         className="absolute bottom-6 md:bottom-4 left-1/2 -translate-x-1/2 text-gray-400 hover:text-red-600 transition-colors animate-bounce z-30"

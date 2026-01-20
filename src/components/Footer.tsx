@@ -40,7 +40,7 @@ const Footer: React.FC = () => {
               <h4 className="font-mono text-[9px] md:text-[10px] text-slate-300 uppercase tracking-widest mb-4 md:mb-6">{t.footer.menu}</h4>
               <nav className="flex flex-col gap-3 md:gap-4">
                 <Link to="/" className="text-slate-500 hover:text-red-600 transition-colors text-xs md:text-sm font-medium">{t.header.home}</Link>
-                <Link to="/about" className="text-slate-500 hover:text-red-600 transition-colors text-xs md:text-sm font-medium">{t.header.about}</Link>
+                <Link to="/#about" className="text-slate-500 hover:text-red-600 transition-colors text-xs md:text-sm font-medium">{t.header.about}</Link>
                 <Link to="/achievements" className="text-slate-500 hover:text-red-600 transition-colors text-xs md:text-sm font-medium">{t.header.achievements}</Link>
                 <Link to="/news" className="text-slate-500 hover:text-red-600 transition-colors text-xs md:text-sm font-medium">{t.header.news}</Link>
               </nav>

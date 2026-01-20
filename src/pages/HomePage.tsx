@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
+import About from '../components/About';
 import News from '../components/News';
 import Videos from '../components/Videos';
 import UpcomingRace from '../components/UpcomingRace';
@@ -17,6 +18,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Hero />
+      <About />
       {/* 以前のセクションのダイジェスト版やハイライトをここに置くこともできます */}
       <div className="bg-white">
         <UpcomingRace />
